@@ -1,8 +1,8 @@
 import unittest
-from up.utils import generate_random_number
+from src.up.utils import generate_random_number
 
 
-class NewVisitorTest(unittest.TestCase):
+class UtilsTest(unittest.TestCase):
 
 
     # def setUp(self):
