@@ -161,12 +161,12 @@ STATIC_URL = "/static/"
 
 # Django Debug Toolbar
 # https://django-debug-toolbar.readthedocs.io/
-if DEBUG:
-    # We need to configure an IP address to allow connections from, but in
-    # Docker we can't use 127.0.0.1 since this runs in a container but we want
-    # to access the toolbar from our browser outside of the container.
-    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
-        "127.0.0.1",
-        "10.0.2.2",
-    ]
+# if DEBUG:
+#     # We need to configure an IP address to allow connections from, but in
+#     # Docker we can't use 127.0.0.1 since this runs in a container but we want
+#     # to access the toolbar from our browser outside of the container.
+#     hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+#     INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
+#         "127.0.0.1",
+#         "10.0.2.2",
+#     ]
