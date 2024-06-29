@@ -1,20 +1,12 @@
 steps:
-# build service image
-  # 1. Build the Django application Docker image
-- id: 'build-image'
-- name: 'gcr.io/cloud-builders/docker'  # Use the official Docker builder
-  args:
-    - 'build'
-    - '-t'  # Tag the image
-    - 'gcr.io/$PROJECT_ID/your-django-app:latest'
-    - '.'   # Build context (the current directory)
-  # tag then store image in registry
-- id: 'tag-image'
-  name: gcr.io/cloud-builders/docker
-  args: ["tag", "quotes", "gcr.io/$PROJECT_ID/django"]
+  # Build the Django application Docker image
+  - name: 'gcr.io/cloud-builders/docker' 
+    args:
+      - 'build'
+      - '-t'  # Tag the image
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/django/django-app:latest'  # Use a consistent image name and consider a specific version tag
+      - '.'   # Build context (the current directory)
   # Push the container image to Artifact Registry
-- id: 'store-image'
-  name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/django']
-
-images: ["gcr.io/$PROJECT_ID/django"]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/django/django-app:latest']  # Use the same image name as in the build step
+images: ['us-central1-docker.pkg.dev/$PROJECT_ID/django/django-app:latest']  # List the final image to be stored
