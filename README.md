@@ -3,7 +3,7 @@ Run the App:
 python -V
 pip install -r requirements.txt
 source .env.example
-/bin/python /home/user/python-django/src/manage.py runserver 8000
+python /home/user/python-django/src/manage.py runserver 8000
 
 host:8000/
 host:8000/up
