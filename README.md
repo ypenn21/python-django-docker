@@ -28,3 +28,7 @@ docker run --rm -p 8000:8000 \
 
 add the following environment variables to the run configurations in IDE;
 PYTHONDONTWRITEBYTECODE=true;SECRET_KEY=insecure_key_for_dev;DEBUG=false;ALLOWED_HOSTS=*;WEB_CONCURRENCY=1;WEB_RELOAD=true
+
+allow unauthenticated policy for cloudrun:
+gcloud resource-manager org-policies set-policy policy.yaml --organization=$ORG_ID
+
