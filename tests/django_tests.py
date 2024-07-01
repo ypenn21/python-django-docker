@@ -2,6 +2,8 @@ from django.test import SimpleTestCase
 from django.urls import reverse
 import django
 import os
+import unittest
+
 class ViewTests(SimpleTestCase):
     def setUp(self):
         django.setup()
@@ -35,3 +37,5 @@ class ViewTests(SimpleTestCase):
         response = self.client.get(reverse("getLLM", args=["my-llm"]))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), {"llm": "my-llm"})
+if __name__ == '__main__':
+	unittest.main(warnings = 'ignore')
