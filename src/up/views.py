@@ -8,7 +8,7 @@ from .utils import generate_random_number  # Import from utils.py
 # redis = Redis.from_url(settings.REDIS_URL)
 
 
-def index(request):
+def up(request):
     return HttpResponse("okay")
 
 

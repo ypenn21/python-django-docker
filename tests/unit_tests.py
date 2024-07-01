@@ -5,18 +5,6 @@ import unittest
 from up.utils import generate_random_number
 
 class UtilsTest(unittest.TestCase):
-
-
-    # def setUp(self):
-    #     self.browser = webdriver.Firefox()
-
-    # def tearDown(self):
-    #     self.browser.quit()
-
-    # def test_can_start_list_and_retrive_later(self):
-    #     self.browser.get('http://localhost:8000')
-    #     self.assertIn('To-Do', self.browser.title)
-
     def test_increment(self):
         self.assertEqual(1,1)
 
