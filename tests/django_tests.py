@@ -2,13 +2,36 @@ from django.test import SimpleTestCase
 from django.urls import reverse
 import django
 import os
-from django.conf import settings
-class UpViewTests(SimpleTestCase):
-    django.setup()
+class ViewTests(SimpleTestCase):
     def setUp(self):
         django.setup()
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+    def test_up_up_view(self):
+        response = self.client.get(reverse('up'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "okay")
+
+    def test_up_status_view(self):
+        response = self.client.get(reverse('status'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "okay:")
+
     def test_up_home_view(self):
-        response = self.client.get(reverse('up'))  # Assuming 'home' is a view in up.urls
-        self.assertEqual(response.status_code, 200)  # Check for a successful response
-        self.assertContains(response, "okay")  # Check for expected content
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "<title>Shell Script to Terraform</title>\n")
+
+    def test_up_view_with_error_handling(self):
+        # Test error handling
+        bind = f"0.0.0.0:{os.getenv('PORT', '8000')}"
+        response = self.client.get(f"${bind}/missing")
+        self.assertEqual(response.status_code, 404)
+
+    def test_up_api_view(self):
+        response = self.client.get(reverse('api'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "okay")
+
+    def test_get_llm(self):
+        response = self.client.get(reverse("getLLM", args=["my-llm"]))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {"llm": "my-llm"})

@@ -7,7 +7,7 @@ psycopg==3.1.19
 
 redis==5.0.6
 celery==5.4.0
-
+pytest==7.4.0
 flake8==7.1.0
 isort==5.13.2
 black==24.4.2

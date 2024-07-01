@@ -12,13 +12,6 @@ def up(request):
     return HttpResponse("okay")
 
 
-# def databases(request):
-#     redis.ping()
-#     connection.ensure_connection()
-#
-#     return HttpResponse("")
-
-
 def status(request):
     random_number = generate_random_number(1, 1000)  # Generate a random number between 1 and 1000
-    return HttpResponse(f"I am okay {random_number}")
+    return HttpResponse(f"okay: {random_number}")

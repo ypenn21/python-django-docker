@@ -19,14 +19,14 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / "subdir".
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ["SECRET_KEY"]
+SECRET_KEY = os.getenv("SECRET_KEY", "insecure_key_for_dev")
 
 DEBUG = bool(strtobool(os.getenv("DEBUG", "false")))
 
 TESTING = "test" in sys.argv
 
 # https://docs.djangoproject.com/en/5.0/ref/settings/#std:setting-ALLOWED_HOSTS
-allowed_hosts = os.getenv("ALLOWED_HOSTS", ".localhost,127.0.0.1,[::1]")
+allowed_hosts = os.getenv("ALLOWED_HOSTS", "*")
 ALLOWED_HOSTS = list(map(str.strip, allowed_hosts.split(",")))
 
 # Application definitions
