@@ -17,9 +17,12 @@ class LLMService:
         self.region = region
 
         # Obtain credentials
-        creds, project = google.auth.default()
-        auth_req = google.auth.transport.requests.Request()
-        creds.refresh(auth_req)
+        required_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
+        creds, project = google.auth.default(scopes=required_scopes)
+        if not creds.valid:
+            if creds.expired and creds.refresh_token:
+                auth_req = google.auth.transport.requests.Request()
+                creds.refresh(auth_req)
 
         # Initialize OpenAI with Vertex AI endpoint and credentials
         self.endpoint= f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
@@ -37,12 +40,14 @@ class LLMService:
                 {
                     "role": "user",
                     "content": "What foundational models are available in model garden in Vertex AI Managed AI Service? Give me a list of 5 foundational models including Gemini models in json format with properties model_name, domain, and description."
+                },
+                {'role': 'system',
+                'content': 'You are a expert on google cloud AI and its suite of services including Vertex AI Managed AI Service'
                 }
-            ]
-        )
+            ])
         return self.parse_response(response.choices[0])
     # def list_llms(self):
-    #     return self.parse_response("```json[{}]```")
+    #     return self.parse_response("\"message\": {\"content\": \"```json[{}]```\"")
 
     def parse_response(self, response):
         text = f'{response}'
