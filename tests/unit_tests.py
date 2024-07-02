@@ -14,5 +14,6 @@ class UtilsTest(unittest.TestCase):
         max_value = 20
         random_number = generate_random_number(min_value, max_value)
         self.assertTrue(min_value <= random_number <= max_value)
+
 if __name__ == '__main__':
 	unittest.main(warnings = 'ignore')

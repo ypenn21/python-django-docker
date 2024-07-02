@@ -27,30 +27,29 @@ class LLMService:
             api_key=creds.token,
             base_url=f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
         )
-
     def list_llms(self):
-        response = self.client.chat.completions.create(model='google/gemini-1.5-pro-001',
-        messages=[{
-            'role': 'user',
-            'content': 'What foundational models are available in model garden in Vertex AI Managed AI Service? Give me a list of 5 foundational models including Gemini models in json format with properties model_name, domain, and description.'
-        },
-        {'role': 'system',
-        'content': 'You are a expert on google cloud AI and its suite of services including Vertex AI Managed AI Service'
-        }])
-        models = self.parse_response(response)
-        return models
+        """
+        Prompts Gemini to list available foundational models in Vertex AI Managed AI Service.
+        """
+        response = self.client.chat.completions.create(
+            model="google/gemini-1.5-pro-001",
+            messages=[
+                {
+                    "role": "user",
+                    "content": "What foundational models are available in model garden in Vertex AI Managed AI Service? Give me a list of 5 foundational models including Gemini models in json format with properties model_name, domain, and description."
+                }
+            ]
+        )
+        return self.parse_response(response.choices[0])
+    # def list_llms(self):
+    #     return self.parse_response("```json[{}]```")
 
     def parse_response(self, response):
         text = f'{response}'
-        # text = jsonModelResponse.choices[0].message['content']
-        # Remove the leading and trailing triple backticks and "json" keyword
-        # Extract the content from the response
-
-        # Use regular expression to find the JSON string
+        print(text)
         match = re.search(r'```json(.*?)```', text, re.DOTALL)
         if match:
             json_str = match.group(1).strip()
-            print(json_str)
             try:
                 # Parse the JSON string
                 cleaned_json_string = re.sub(r'\\n*', '', json_str)
@@ -63,7 +62,7 @@ class LLMService:
         # If no JSON found or parsing failed, return an empty list
         return []
 
-    def get_random_llm(self):
+    def get_llms(self):
         llms = self.list_llms()
         if not llms:
             raise ValueError("No LLMs available")

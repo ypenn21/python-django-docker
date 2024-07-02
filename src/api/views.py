@@ -18,7 +18,7 @@ def getLLM(request):
 
     llm_service = LLMService(project_id, region)
     try:
-        random_llm = llm_service.get_random_llm()
-        return HttpResponse(random_llm)
+        llms = llm_service.get_llms()
+        return HttpResponse(llms)
     except ValueError as e:
         return HttpResponse(f"Error: {e}", status=500)
