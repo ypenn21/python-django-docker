@@ -13,7 +13,7 @@ host:8000/up/status
 run tests:
 export PYTHONPATH=$PYTHONPATH:/home/user/python-django/src
 export DJANGO_SETTINGS_MODULE=config.settings
-python .tests/django_tests.py
+python tests/django_tests.py
 
 run tests in intellji test configuration:
 #add the following environment variables to the run configurations in IDE;
