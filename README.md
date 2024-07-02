@@ -33,3 +33,8 @@ docker run --rm -p 8000:8000 \
 allow unauthenticated policy for cloudrun:
 gcloud resource-manager org-policies set-policy policy.yaml --organization=$ORG_ID
 
+For vertexai api to you need to authenticate to gcp via gcloud auth login or use sa key:
+
+Using sa key e.g.
+export GOOGLE_APPLICATION_CREDENTIALS=/home/user/python-django/sa.json
+
