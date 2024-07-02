@@ -19,10 +19,8 @@ class LLMService:
         # Obtain credentials
         required_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
         creds, project = google.auth.default(scopes=required_scopes)
-        if not creds.valid:
-            if creds.expired and creds.refresh_token:
-                auth_req = google.auth.transport.requests.Request()
-                creds.refresh(auth_req)
+        auth_req = google.auth.transport.requests.Request()
+        creds.refresh(auth_req)
 
         # Initialize OpenAI with Vertex AI endpoint and credentials
         self.endpoint= f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
