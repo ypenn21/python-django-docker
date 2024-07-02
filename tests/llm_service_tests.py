@@ -4,17 +4,6 @@ import unittest
 
 
 class LLMServiceTests(unittest.TestCase):
-    class Message:
-        def __init__(self, content):
-            self.content = content
-
-    class Choice:
-        def __init__(self, message):
-            self.message = message
-
-    class Response:
-        def __init__(self):
-            self.choices = []
     @patch('src.api.llm_service.OpenAI')
     def test_list_llms(self, mock_openai):
         # Mock the OpenAI client and its response
