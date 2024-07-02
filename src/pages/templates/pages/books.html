@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>University Book Review</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif; /* Base font */
+        margin: 0;
+        padding: 0;
+        background-color: #202124; /* A dark gray */
+        font-size: 18px; /
+      }
+
+      .form-container {
+        display: flex; /* Arrange elements horizontally */
+        flex-direction: column; /* Stack elements vertically */
+        align-items: center; /* Center elements horizontally */
+        margin: 20px auto; /* Add margin and center horizontally */
+        max-width: 700px; /* Limit container width */
+        border: 2px solid #ffcc00; /* Google yellow border */
+        border-radius: 10px; /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        padding: 20px;
+        background-size: cover; /* Stretch image to fill container */
+        background-repeat: no-repeat; /* Prevent image repetition */
+        background-position: center; /* Center image */
+        font-size: 18px; /
+      }
+
+      .form-container h3 {
+        margin-bottom: 10px;
+        color: #4285f4; /* Google blue text */
+        text-align: center;
+        font-size: 24px;
+      }
+
+      input[type="text"], button {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        width: 100%; /* Make inputs full width */
+        font-size: 1.2em;  /
+      }
+
+      button {
+        background-color: #4caf50; /* Google green */
+        max-width: 300px;
+        color: white;
+        cursor: pointer;
+        font-size: 18px; /
+      }
+
+      #results-container {
+        margin: 20px auto;
+        max-width: 700px; /* Limit container width */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        padding: 15px;
+        border: 2px solid #ffcc00;
+        border-radius: 5px;
+        font-size: 1rem;
+      }
+
+      .keyword-card {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #f0f0f0;
+        border-radius: 5px;
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+      }
+
+      .keyword-card h3 {
+        color: #333; /* Dark text for keywords */
+      }
+
+      .keyword-card ul {
+        list-style: none; /* Remove default bullet points */
+        padding: 0;
+        margin: 0;
+      }
+
+      .text-display-box {
+          border: 1px solid #f0f0f0;  /* Changed for visual consistency */
+          padding: 15px;
+          margin-bottom: 10px;
+          max-width: 700px; /* Keep your existing max-width */
+          border-radius: 5px;  /* Rounded corners */
+          background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+      }
+      #loading-indicator {
+          display: none; /* Initially hidden */
+          text-align: center;
+          background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+      }
+
+      /* Animation Keyframes */
+      @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(5px); } /* Adjust for the desired shake distance */
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+      }
+
+      /* Apply Animation */
+      #loading-indicator.shaking {
+        animation: shake 1s infinite alternate; /* Adjust time and other properties */
+      }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <input type="text" id="bookTitle" placeholder="Book Title">
+        <input type="text" id="bookAuthor" placeholder="Author">
+        <input type="text" id="keywords" placeholder="Keywords (comma-separated)">
+        <button id="analyzeBtn">Analyze</button>
+        <button id="clearBtn">Clear</button>
+    </div>
+
+    <div id="results-container">
+
+      <div id="loading-indicator">Loading...</div>
+
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('#clearBtn').click(function() {
+        const resultsContainer = $('#results-container');
+        resultsContainer.empty();
+      });
+      $('#analyzeBtn').click(function() {
+        const bookTitle = $('#bookTitle').val();
+        const bookAuthor = $('#bookAuthor').val();
+        const keywords = $('#keywords').val().split(',');
+
+        $('#results-container').empty(); // Clear the previous results
+        if ($('#loading-indicator').length === 0) {
+            $('<div id="loading-indicator">Loading...</div>').appendTo('#results-container');
+        }
+        $('#loading-indicator').show().addClass('shaking'); ;
+
+
+        const bookData = {
+            book: bookTitle,
+            author: bookAuthor,
+            keyWords: keywords
+        };
+        function makeAjaxCall() {
+            $.ajax({
+                type: 'POST',
+                url: 'https://books-genai-native-njptbyurhq-uc.a.run.app/analysis?contentCharactersLimit=1000',
+                data: JSON.stringify(bookData),
+                contentType: 'application/json',
+                success: function(response) {
+                    $('#loading-indicator').hide().removeClass('shaking'); // Hide the loading indicator
+
+                    // Check if the response is a string
+                    if (typeof response === 'string') {
+                      displayTextResult(response);
+                    } else {
+                      displayResults(response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    if (retries > 0) {
+                        retries--;
+                        console.log('Retrying...');
+                        setTimeout(makeAjaxCall, retryDelay);
+                    } else {
+                        $('#loading-indicator').hide().removeClass('shaking');
+                        alert('An error occurred during the analysis');
+                    }
+                }
+            });
+        }
+        var retries = 1;  // Number of retries. retry number set here +1 is the number of times it will retry.
+        var retryDelay = 1000; // Delay between retries in milliseconds
+        makeAjaxCall();
+      });
+
+      function displayTextResult(text) {
+        const resultsContainer = $('#results-container');
+        resultsContainer.empty(); // Clear previous results
+        resultsContainer.append(`<div class="text-display-box">${text}</div>`);
+      }
+    });
+    </script>
+</body>
+</html>

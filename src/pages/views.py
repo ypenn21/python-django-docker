@@ -13,3 +13,7 @@ def home(request):
     # }
 
     return render(request, "pages/home.html")
+
+def books(request):
+    print("books")
+    return render(request, "pages/books.html")
