@@ -33,3 +33,5 @@ class LLMServiceTests(unittest.TestCase):
             self.assertIn('model_name', llm)
             self.assertIn('domain', llm)
             self.assertIn('description', llm)
+if __name__ == '__main__':
+	unittest.main(warnings = 'ignore')
