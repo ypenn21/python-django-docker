@@ -43,25 +43,25 @@ class LLMService:
                 'content': 'You are a expert on google cloud AI and its suite of services including Vertex AI Managed AI Service'
                 }
             ])
-        return self.parse_response(response.choices[0])
+        return self.parse_response(f'{response.choices[0]}')
     # def list_llms(self):
     #     return self.parse_response("\"message\": {\"content\": \"```json[{}]```\"")
-
+    #implement the function parse_response by parsing out the json string enclosed by ```json ```using regex, and parse the json string to json.
     def parse_response(self, response):
-        text = f'{response}'
-        print(text)
-        match = re.search(r'```json(.*?)```', text, re.DOTALL)
+        print(response)
+        # Find JSON string enclosed by ```json ... ```
+        match = re.search(r"```json\s*(.*?)\s*```", response, re.DOTALL)
         if match:
-            json_str = match.group(1).strip()
+            json_str = match.group(1)
             try:
-                # Parse the JSON string
+                # Parse the extracted JSON string
                 cleaned_json_string = re.sub(r'\\n*', '', json_str)
-                print(cleaned_json_string)
-                model_list = json.loads(cleaned_json_string)
-                return model_list
+                return json.loads(cleaned_json_string)
             except json.JSONDecodeError:
-                pass
-
+                print("Error: Invalid JSON format in response.")
+                return []
+        else:
+            print("Error: No JSON string found in response.")
         # If no JSON found or parsing failed, return an empty list
         return []
 

@@ -1,10 +1,6 @@
 from django.http import HttpResponse
 from .llm_service import LLMService
 import os
-# redis = Redis.from_url(settings.REDIS_URL)
-project_id = 'your-project-id'
-location = 'us-central1'
-endpoint_name = 'your-endpoint-name'
 
 def api(request):
     return HttpResponse("okay")
