@@ -29,24 +29,7 @@ class LLMService:
             base_url=f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
         )
     def list_llms(self):
-        """
-        Prompts Gemini to list available foundational models in Vertex AI Managed AI Service.
-        """
-        response = self.client.chat.completions.create(
-            model="google/gemini-1.5-pro-001",
-            messages=[
-                {
-                    "role": "user",
-                    "content": "What foundational models are available in model garden in Vertex AI Managed AI Service? Give me a list of 5 foundational models including Gemini models in json format with properties model_name, domain, and description."
-                },
-                {'role': 'system',
-                'content': 'You are a expert on google cloud AI and its suite of services including Vertex AI Managed AI Service'
-                }
-            ])
-        return self.parse_response(f'{response.choices[0]}')
-    # def list_llms(self):
-    #     return self.parse_response("\"message\": {\"content\": \"```json[{}]```\"")
-    #implement the function parse_response by parsing out the json string enclosed by ```json ```using regex, and parse the json string to json.
+        return []
     def parse_response(self, response):
         print(response)
         # Find JSON string enclosed by ```json ... ```

@@ -3,5 +3,5 @@ from api import views
 
 urlpatterns = [
     path("", views.api, name="api"),
-    path('llm/', views.getLLM, name='get_llm'),
+    path('llm/', views.list_llms, name='get_llm'),
 ]
