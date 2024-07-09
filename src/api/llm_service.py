@@ -28,9 +28,6 @@ class LLMService:
             api_key=creds.token,
             base_url=f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
         )
-
-    def __init__(self):
-        self
     def list_llms(self):
         return self.parse_response("")
     def parse_response(self, response):
