@@ -29,7 +29,7 @@ class LLMService:
             base_url=f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
         )
     def list_llms(self):
-        return []
+        return self.parse_response("")
     def parse_response(self, response):
         print(response)
         # Find JSON string enclosed by ```json ... ```
