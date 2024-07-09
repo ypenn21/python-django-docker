@@ -6,5 +6,5 @@ app_name = 'api'
 
 urlpatterns = [
     path("", views.api, name="api"),
-    path('llm/', views.list_llms, name='get_llm'),
+    path('llm/', views.list_llms, name='llm'),
 ]
