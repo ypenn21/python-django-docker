@@ -1,13 +1,5 @@
-from django.conf import settings
-from django.db import connection
 from django.http import HttpResponse
-from redis import Redis
-from .utils import generate_random_number  # Import from utils.py
-
-
-# redis = Redis.from_url(settings.REDIS_URL)
-
-
+from src.services.utils_service import generate_random_number  # Import from utils_service.py
 def up(request):
     return HttpResponse("okay")
 

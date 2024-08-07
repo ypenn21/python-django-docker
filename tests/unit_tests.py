@@ -2,7 +2,7 @@ import unittest
 # import sys
 # import os
 # sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-from src.up.utils import generate_random_number
+from src.services.utils_service import generate_random_number
 
 class UtilsTest(unittest.TestCase):
     def test_generate_random_number(self):
