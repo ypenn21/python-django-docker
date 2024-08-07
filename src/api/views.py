@@ -17,6 +17,7 @@ def get_book(request):
     dao = DAOService()
     param = request.GET.get('title')
     if param:
+        param = urllib.parse.unquote(param)
         results = dao.findBook(param)
         return HttpResponse(results)
     else:
