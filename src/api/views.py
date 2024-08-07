@@ -47,6 +47,7 @@ def get_analysis(request):
             keywords=keywords
         )
         print(formatted_prompt)
+        #TODO create prompt llm
         return HttpResponse(results)
     else:
         return HttpResponse("Title parameter is missing", status=404)
