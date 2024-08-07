@@ -18,11 +18,11 @@ class DAOService:
         )
         return conn
 
-    def findBook(self, title):
+    def find_book(self, title):
         query = "SELECT * FROM books WHERE UPPER(title) = UPPER(%s)"
         params = (title,)
         return self.read(query, params)
-    def promptForBooks(self, prompt: str, book: str = None, author: str = None, characterLimit: int = None) -> List[Dict[str, Any]]:
+    def prompt_for_books(self, prompt: str, book: str = None, author: str = None, characterLimit: int = None) -> List[Dict[str, Any]]:
         """
         Prompts for books based on a given prompt, book title, and author. Vertexai integration will
         automatically transform prompt to text embeddings
@@ -61,7 +61,7 @@ class DAOService:
         print(f"Parameters: {params}")
 
         if len(params) > 2:
-            sql += self.createWhereClause(book, author)
+            sql += self.create_where_clause(book, author)
 
         sql += """
             ORDER BY
@@ -82,7 +82,7 @@ class DAOService:
         print(result_rows)
         return result_rows
 
-    def createWhereClause(self, book: str, author: str) -> str:
+    def create_where_clause(self, book: str, author: str) -> str:
         """
         Creates a WHERE clause for the SQL query based on book and author filters.
 
