@@ -5,6 +5,7 @@ from openai import OpenAI
 import json
 import google.auth.transport.requests
 import google.auth
+from typing import List, Dict, Any
 import re
 
 
@@ -15,7 +16,7 @@ class LLMService:
     def __init__(self, project_id, region):
         self.project_id = project_id
         self.region = region
-
+        # print(f'project_id: {project_id}, region: {region}')
         # Obtain credentials
         required_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
         creds, project = google.auth.default(scopes=required_scopes)
@@ -53,3 +54,39 @@ class LLMService:
         if not llms:
             raise ValueError("No LLMs available")
         return llms
+    def formatPromptBookAnalysis(self, book: Dict, book_pages: List[Dict[str, Any]], keywords: List[str]) -> str:
+        """
+        Formats a prompt for book analysis based on book details, excerpts, and keywords.
+
+        Args:
+            book (Dict): A dictionary containing book details (e.g., title, author).
+            book_pages (List[Dict[str, Any]]): A list of dictionaries representing book excerpts.
+            keywords (List[str]): A list of keywords to analyze.
+
+        Returns:
+            str: The formatted prompt for book analysis.
+        """
+        prompt_book_analysis = """Provide an analysis of the book %s by %s 
+            "with the skills of a literary critic.
+            "What factor do the following %s
+            "play in the narrative of the book.
+            "Please use these paragraphs delimited by triple backquotes from the book :\n
+            ```%s```
+            """
+
+        # Filter keywords to remove null or empty strings
+        params = [k for k in keywords if k is not None and isinstance(k, str) and k != '']
+
+        if (not params and not book_pages):
+            return ""  # Or other default message
+
+        print(params)
+
+        context = " ".join([page.get("page") for page in book_pages])
+
+        return prompt_book_analysis % (
+            book.get("book"),
+            book.get("author"),
+            ", ".join(params),
+            context
+        )
