@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from src.services.llm_service import LLMService
 from src.services.dao_service import DAOService
+from src.services.prompt_service import PromptService
 import urllib.parse
 import os
 
@@ -24,10 +25,7 @@ def get_book(request):
 
 def get_analysis(request):
     dao = DAOService()
-    project_id = os.getenv('GOOGLE_CLOUD_PROJECT_ID')
-    region = os.getenv('GOOGLE_CLOUD_REGION', 'us-central1')
-    llm_service = LLMService(project_id, region)
-    prompt = "Give me a short excerpt about love from this book."
+    prompt = PromptService.formatPromptBookKeywords(keywords=['love', 'animals', 'coming of age'])
     character_limit = 500
     title = request.GET.get('title')
     author_name = request.GET.get('author_name')
@@ -40,13 +38,13 @@ def get_analysis(request):
         # Define keywords for analysis
         keywords = ["love", "romance", "relationship"]
         # Format the prompt using LLMService
-        formatted_prompt = llm_service.formatPromptBookAnalysis(
+        formatted_prompt = PromptService.formatPromptBookAnalysis(
             book={"book": book_title, "author": author_name},
             book_pages=book_pages,
             keywords=keywords
         )
         print(formatted_prompt)
-        #TODO create prompt llm
+        #TODO create prompt llm and prompt with formatted_prompt
         return HttpResponse(results)
     else:
         return HttpResponse("Title parameter is missing", status=404)
