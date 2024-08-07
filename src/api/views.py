@@ -1,8 +1,7 @@
 from django.http import HttpResponse
-from .llm_service import LLMService
-from .dao_service import DAOService
+from src.services.llm_service import LLMService
+from src.services.dao_service import DAOService
 import urllib.parse
-from django.http import JsonResponse
 import os
 
 def api(request):

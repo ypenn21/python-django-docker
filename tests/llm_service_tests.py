@@ -1,5 +1,5 @@
 from unittest.mock import patch, MagicMock  # Import MagicMock here
-from src.api.llm_service import LLMService
+from src.services.llm_service import LLMService
 import unittest
 
 
