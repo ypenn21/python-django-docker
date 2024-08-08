@@ -16,4 +16,4 @@ def home(request):
 
 def books(request):
     print("books")
-    return render(request, "pages/books.html")
+    return render(request, "pages/terraform.html")

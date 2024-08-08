@@ -6,5 +6,5 @@ app_name = 'pages'
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path("books.html/", views.books, name="books"),
+    path("terraform.html/", views.books, name="terraform"),
 ]
