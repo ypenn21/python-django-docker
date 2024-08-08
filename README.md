@@ -1,5 +1,10 @@
 Run the App:
 ```shell
+gcloud config set project $your_project_id
+
+#set the PROJECT_ID env variable
+export PROJECT_ID=$(gcloud config list --format 'value(core.project)')
+
 python -V
 pip install -r requirements.txt
 source .env.example
@@ -20,7 +25,7 @@ python tests/view_tests.py
 
 run tests in intellji test configuration:
 PYTHONUNBUFFERED=1;PYTHONDONTWRITEBYTECODE=true;WEB_CONCURRENCY=1;WEB_RELOAD=true;DEBUG=true;POSTGRES_HOST=0.0.0.0;POSTGRES_PASSWORD=pword;POSTGRES_PORT=5000;GOOGLE_CLOUD_PROJECT_ID=next24-genai-app
-
+```shell
 setup the following environment variables to the run configurations in vscode:
 export PYTHONPATH=$PYTHONPATH:/home/user/python-django/src;DJANGO_SETTINGS_MODULE=config.settings
 export PYTHONUNBUFFERED=1
@@ -31,11 +36,14 @@ export DEBUG=true
 export POSTGRES_HOST=0.0.0.0 
 export POSTGRES_PASSWORD=pword 
 export POSTGRES_PORT=5000
-export GOOGLE_CLOUD_PROJECT_ID=next24-genai-app
-
+export GOOGLE_CLOUD_PROJECT_ID=$PROJECT_ID
+```
 
 run docker container locally:
 ```shell
+#set the project if you haven't already
+gcloud config set project $your_project_id>
+export PROJECT_ID=$(gcloud config list --format 'value(core.project)')
 docker build -f ./Dockerfile -t django .
 
 docker run --rm -p 8000:8000 \
@@ -51,24 +59,30 @@ docker run --rm -p 8000:8000 \
   -e POSTGRES_HOST=0.0.0.0 \
   -e POSTGRES_PASSWORD='pword' \
   -e POSTGRES_PORT=5000 \
-  -e GOOGLE_CLOUD_PROJECT_ID=next24-genai-app django:latest
+  -e GOOGLE_CLOUD_PROJECT_ID=$PROJECT_ID \
+  django:latest
  ```
 
 Run container image build with Cloud Build (will pick up cloudbuild.yaml):
 ```shell
+#set the project if you haven't already
+gcloud config set project $your_project_id>
+#set the PROJECT_ID env variable
+export PROJECT_ID=$(gcloud config list --format 'value(core.project)')
+echo $PROJECT_ID
 gcloud builds submit --machine-type E2-HIGHCPU-32
-
 ```
 
 allow unauthenticated policy for cloudrun:
 ```shell
 gcloud resource-manager org-policies set-policy policy.yaml --organization=$ORG_ID
 ```
+Deploy Cloud Run to your GCP project:
 ```shell
 gcloud run deploy django 
-  --image us-central1-docker.pkg.dev/next24-genai-app/django/django-app:latest \
+  --image us-central1-docker.pkg.dev/$PROJECT_ID/django/django-app:latest \
   --region us-central1 \
-  --set-env-vars='PYTHONDONTWRITEBYTECODE=true,PYTHONUNBUFFERED=1,POSTGRES_HOST=0.0.0.0,POSTGRES_PASSWORD=pword,GOOGLE_CLOUD_PROJECT_ID=next24-genai-app' 
+  --set-env-vars="PYTHONDONTWRITEBYTECODE=true,PYTHONUNBUFFERED=1,POSTGRES_HOST=0.0.0.0,POSTGRES_PASSWORD=pword,GOOGLE_CLOUD_PROJECT_ID=${$PROJECT_ID}" \
   --memory 2Gi \
   --allow-unauthenticated \
   --vpc-connector alloy-connector
