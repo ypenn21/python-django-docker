@@ -19,7 +19,7 @@ class ViewTests(SimpleTestCase):
     def test_up_home_view(self):
         response = self.client.get(reverse('pages:home'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "<title>Shell Script to Terraform</title>\n")
+        self.assertContains(response, "<title>University Book Review</title>\n")
 
     def test_up_view_with_error_handling(self):
         # Test error handling
