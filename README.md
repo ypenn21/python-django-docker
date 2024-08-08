@@ -1,5 +1,6 @@
-Run the App:
+Run the App locally:
 ```shell
+gcloud auth login
 gcloud config set project $your_project_id
 
 #set the PROJECT_ID env variable
@@ -87,8 +88,11 @@ gcloud run deploy django
   --allow-unauthenticated \
   --vpc-connector alloy-connector
 ```
-For vertexai api to you need to authenticate to gcp via gcloud auth login or use sa key:
+
+*Note For access to vertexai api you need to authenticate to gcp via gcloud auth login or use sa key:
 
 Using sa key e.g.
+```shell
 export GOOGLE_APPLICATION_CREDENTIALS=/home/user/python-django/sa.json
+```
 
