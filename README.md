@@ -1,3 +1,9 @@
+## High-level Cloud Architecture
+![High-level Architecture Diagram](diagrams/high-level-architecture.png)
+
+#### Keyword-driven Book Analysis
+![Keyword Driven Book Analysis Diagram](diagrams/keyword-driven-book-analysis.png)
+
 Run the App locally:
 ```shell
 gcloud auth login
