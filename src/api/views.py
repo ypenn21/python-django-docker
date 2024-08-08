@@ -28,6 +28,9 @@ def post_analysis(request):
     if request.method == 'POST':
         try:
             dao = DAOService()
+            project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
+            region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
+            llm_service = LLMService(project_id=project_id, region=region)
             data = json.loads(request.body)
             book_title = data.get("book")
             author_name = data.get("author")
@@ -43,14 +46,12 @@ def post_analysis(request):
                 )
                 book_pages = [{"page": result.get("page")} for result in results]
 
-                formatted_prompt = format_prompt_book_analysis(
-                    book={"book": book_title, "author": author_name},
+                analysis = llm_service.analysis_book(
+                    book_title, author_name,
                     book_pages=book_pages,
                     keywords=keywords
                 )
-                print(formatted_prompt)
-                # TODO create prompt llm and prompt with formatted_prompt
-                return JsonResponse(results, safe=False)
+                return HttpResponse(analysis)
             else:
                 return HttpResponse("Missing required parameters", status=400)
         except json.JSONDecodeError:
@@ -58,5 +59,21 @@ def post_analysis(request):
     else:
         return HttpResponse("Method not allowed", status=405)
 
+
 def list_llms(request):
-    return HttpResponse("")
+    """
+    Retrieves a list of available LLMs from Vertex AI.
+
+    Args:
+        request: The HTTP request object.
+
+    Returns:
+        A JSON response containing a list of LLM names.
+    """
+    project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
+    region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
+
+    llm_service = LLMService(project_id=project_id, region=region)
+    llms = llm_service.list_llms()
+
+    return JsonResponse({"llms": llms})
