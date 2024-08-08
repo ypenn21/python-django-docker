@@ -150,7 +150,8 @@
         function makeAjaxCall() {
             $.ajax({
                 type: 'POST',
-                url: 'http://127.0.0.1:8000/api/analysis',
+                //url: 'http://127.0.0.1:8000/api/analysis',
+                url: 'https://django-njptbyurhq-uc.a.run.app/api/analysis',
                 data: JSON.stringify(bookData),
                 contentType: 'application/json',
                 success: function(response) {
