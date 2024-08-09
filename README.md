@@ -4,6 +4,23 @@
 #### Keyword-driven Book Analysis
 ![Keyword Driven Book Analysis Diagram](diagrams/keyword-driven-book-analysis.png)
 
+Install the latest python interpreter with the pyenv for the simplest installation:
+```shell
+sudo apt-get update 
+sudo apt-get install -y build-essential zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libffi-dev libbz2-dev
+curl https://pyenv.run | bash
+echo -e 'export PYENV_ROOT="$HOME/.pyenv"\nexport PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo -e 'eval "$(pyenv init --path)"\neval "$(pyenv init -)"' >> ~/.bashrc
+pyenv --version
+```
+
+Install the python 3.12 and confirm it as the default:
+```shell
+pyenv install 3.12.4
+pyenv global 3.12.4
+python3 -m venv .venv #check notification in vscode and click click yes
+```
+
 Run the App locally:
 ```shell
 gcloud auth login
