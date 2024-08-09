@@ -37,7 +37,7 @@ class LLMService:
         system_message = "You are a helpful AI assistant that can provide information about Vertex AI Managed AI Service. You are able to access and process information from the real world through Google Search and keep your response consistent with search results."
         user_message = 'What foundational models are available in model garden in Vertex AI Managed AI Service? Give me a list of 5 foundational models including Gemini models in json format with properties model_name, domain, and description.'
         response = self.prompt_gemini(system_message, user_message)
-        return self.parse_response(response)
+        return self.parse_response_to_json(response)
 
     def analysis_book(self, book_title: str, author_name: str, book_pages: List[Dict[str, Any]], keywords: List[str]) -> str:
         system_message = """You are a helpful AI assistant that can provide literary analysis of classic literature books, particularly those from the Shakespearean era. You have access to a vast knowledge base of literary theory, historical context, and the works of Shakespeare himself. 
@@ -80,7 +80,7 @@ class LLMService:
                 retries += 1
                 print(f"OpenAIError: {e}. Retrying... (Attempt {retries}/{max_retries})")
         raise OpenAIError(f"Failed to get response from Gemini after {max_retries} retries.")
-    def parse_response(self, response):
+    def parse_response_to_json(self, response):
         print(response)
         # Find JSON string enclosed by ```json ... ```
         match = re.search(r"```json\s*(.*?)\s*```", response, re.DOTALL)

@@ -37,7 +37,7 @@ def is_prime(n):
     i += 6
   return True
 
-def factorial(n):   
+def factorial(n):
 
   """
   Calculates the factorial of a non-negative integer.
@@ -107,4 +107,4 @@ def sum_of_numbers(numbers):
   total = 0
   for num in numbers:
     total += num
-  return total   
+  return total
