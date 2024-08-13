@@ -5,9 +5,8 @@ from pathlib import Path
 from distutils.util import strtobool
 
 TESTING = "test" in sys.argv
-ALLOWED_HOSTS = list(map(str.strip, allowed_hosts.split(",")))
 allowed_hosts = os.getenv("ALLOWED_HOSTS", "*")
-
+ALLOWED_HOSTS = list(map(str.strip, allowed_hosts.split(",")))
 # Static files (HTML, CSS)
 STATIC_URL = "/static/"
 
