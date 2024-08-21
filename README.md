@@ -2,7 +2,7 @@
 ![High-level Architecture Diagram](diagrams/high-level-architecture.png)
 
 #### Keyword-driven Book Analysis
-![Keyword Driven Book Analysis Diagram](diagrams/keyword-driven-book-analysis.png)
+![Keyword Driven Analysis Diagram](diagrams/keyword-driven-book-analysis.png)
 
 Install the latest python interpreter with the pyenv for the simplest installation:
 ```shell
