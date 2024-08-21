@@ -112,7 +112,7 @@ gcloud run deploy django
   --vpc-connector alloy-connector
 ```
 
-*Note For access to vertexai api you need to authenticate to gcp via gcloud auth login or use sa key:
+*Note For access to vertexai api locally you need to authenticate to gcp via gcloud auth login or use sa key:
 
 Using sa key e.g.
 ```shell
