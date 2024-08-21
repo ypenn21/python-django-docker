@@ -130,7 +130,7 @@ resource "google_compute_instance" "alloydb_client" {
   psql "host=${local.alloydb_ip} user=postgres" -c "CREATE DATABASE library"
   psql "host=${local.alloydb_ip}  user=postgres dbname=library" -c "CREATE EXTENSION IF NOT EXISTS google_ml_integration CASCADE"
   psql "host=${local.alloydb_ip}  user=postgres dbname=library" -c "CREATE EXTENSION IF NOT EXISTS vector"
-  curl -o /tmp/init-db.sql https://raw.githubusercontent.com/GoogleCloudPlatform/serverless-production-readiness-java-gcp/main/sessions/next24/sql/books-ddl.sql
+  curl -o /tmp/init-db.sql https://raw.githubusercontent.com/ypenn21/python-django-docker/main/sql/books-ddl.sql
   psql "host=${local.alloydb_ip} user=postgres dbname=library" -f /tmp/init-db.sql
   EOF
   
@@ -306,7 +306,19 @@ resource "google_eventarc_trigger" "books_genai_trigger_embeddings" {
     value     = "library_next24_public_${var.project_id}"
   }
 }
+# Pub/Sub Topic
+# resource "google_pubsub_topic" "my_topic" {
+#   depends_on = [google_cloud_run_service.cloud_run]
+#   name = "my-topic" # Choose a descriptive name for your topic
+# }
 
+# Pub/Sub Subscription (optional, if you need to consume messages)
+# resource "google_pubsub_subscription" "my_subscription" {
+#   name  = "my-subscription"
+#   topic = google_pubsub_topic.my_topic.name
+#
+#   # ... (other subscription configuration, e.g., push endpoint, etc.)
+# }
 resource "google_eventarc_trigger" "books_genai_trigger_image" {
   for_each = local.cloud_run_services
   depends_on = [google_cloud_run_service.cloud_run]
