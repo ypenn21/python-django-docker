@@ -1,7 +1,7 @@
 ## High-level Cloud Architecture
 ![High-level Architecture Diagram](diagrams/high-level-architecture.png)
 
-#### Keyword-driven Book Analysis
+#### Keyword-driven Analysis
 ![Keyword Driven Analysis Diagram](diagrams/keyword-driven-book-analysis.png)
 
 Install the latest python interpreter with the pyenv for the simplest installation:
