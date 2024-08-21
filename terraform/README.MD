@@ -19,7 +19,7 @@ gcloud services enable artifactregistry.googleapis.com
 gcloud services enable vpcaccess.googleapis.com
 gcloud services enable servicenetworking.googleapis.com
 gcloud services enable eventarc.googleapis.com
-gcloud services enable firestore.googleapis.com
+gcloud services enable pubsub.googleapis.com
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID}     --member="serviceAccount:${SERVICE_ACCOUNT}"     --role='roles/storage.objectViewer'
 
