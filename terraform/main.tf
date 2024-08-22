@@ -185,13 +185,9 @@ output "alloydb_ip" {
 
 locals {
   cloud_run_services = {
-    "books-genai-jit" = {
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/books-genai-jit/books-genai:latest",
+    "app-genai" = {
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/genai/app-genai:latest",
       env = "jit"
-    },
-    "books-genai-native" = {
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/books-genai-native/books-genai:latest",
-      env = "native"
     }
   }
   alloydb_ip = google_alloydb_instance.primary.ip_address
@@ -202,7 +198,7 @@ resource "google_artifact_registry_repository" "books_genai_repo" {
   depends_on = [google_alloydb_instance.primary]
   location      = var.region
   repository_id = each.key
-  description   = "Artifact registry for books-genai-jit images"
+  description   = "Artifact registry for genai apps images"
   format        = "DOCKER"
 
   labels = {
@@ -278,7 +274,7 @@ resource "google_cloud_run_service_iam_member" "cloud_run_unauthenticated" {
   role     = "roles/run.invoker"
   member   = "allUsers"
 }
-resource "google_eventarc_trigger" "books_genai_trigger_embeddings" {
+resource "google_eventarc_trigger" "genai_trigger_embeddings" {
   for_each = local.cloud_run_services
   depends_on = [google_cloud_run_service.cloud_run]
   name     = "${each.key}-trigger-embeddings-${var.region}"
@@ -318,7 +314,7 @@ resource "google_eventarc_trigger" "books_genai_trigger_embeddings" {
 #
 #   # ... (other subscription configuration, e.g., push endpoint, etc.)
 # }
-resource "google_eventarc_trigger" "books_genai_trigger_image" {
+resource "google_eventarc_trigger" "genai_trigger_image" {
   for_each = local.cloud_run_services
   depends_on = [google_cloud_run_service.cloud_run]
   name     = "${each.key}-trigger-image-${var.region}"
