@@ -88,8 +88,9 @@ terraform apply
 ```
 
 ## Terraform must be run twice. The first run creates the infrastructure such as artifact registry, VPC, firewall, VPC peering, GCE psql client, firestore, & alloydb.
-## After the first time you run TF & the above infra is created. Tag and push the cloud run images to the artifact registry you just created. Example below:
+## After the first time you run TF & the above infra is created. Tag and push the cloud run images to the artifact registry you just created. Run cloud build at root of the repo:
 ```shell
+gcloud builds submit --machine-type E2-HIGHCPU-32
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/genai/app-genai:latest
 ```
 ## Once the images are there then the cloud run instances will be ready to deploy on the second terraform apply.. (First run will fail here)
