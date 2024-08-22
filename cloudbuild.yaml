@@ -4,9 +4,9 @@ steps:
     args:
       - 'build'
       - '-t'  # Tag the image
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/django/django-app:latest'  # Use a consistent image name and consider a specific version tag
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/genai/genai-apps:latest'  # Use a consistent image name and consider a specific version tag
       - '.'   # Build context (the current directory)
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/django/django-app:latest']  # Use the same image name as in the build step
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/genai/genai-apps:latest']  # Use the same image name as in the build step
 images: ['us-central1-docker.pkg.dev/$PROJECT_ID/django/django-app:latest']  # List the final image to be stored
