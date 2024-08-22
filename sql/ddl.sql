@@ -34,12 +34,12 @@ create TABLE pages (
     content TEXT,
     embedding public.vector GENERATED ALWAYS AS (public.embedding('textembedding-gecko@003'::text, content)) STORED,
     CONSTRAINT fk_pages
-        FOREIGN KEY(book_id)
-        REFERENCES Books(book_id)
+        FOREIGN KEY(document_id)
+        REFERENCES document(document_id)
 );
 
 
-CREATE INDEX idx_pages_book_id ON pages (book_id);
+CREATE INDEX idx_pages_document_id ON pages (document_id);
 CREATE INDEX idx_document_author_id ON document (author_id);
 CREATE INDEX idx_document_document_id ON document (document_id);
 CREATE INDEX idx_pages_author_id ON authors (author_id);
