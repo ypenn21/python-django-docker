@@ -129,7 +129,7 @@ resource "google_compute_instance" "alloydb_client" {
   psql "host=${local.alloydb_ip} user=postgres" -c "CREATE DATABASE library"
   psql "host=${local.alloydb_ip}  user=postgres dbname=library" -c "CREATE EXTENSION IF NOT EXISTS google_ml_integration CASCADE"
   psql "host=${local.alloydb_ip}  user=postgres dbname=library" -c "CREATE EXTENSION IF NOT EXISTS vector"
-  curl -o /tmp/init-db.sql https://raw.githubusercontent.com/ypenn21/python-django-docker/main/sql/books-ddl.sql
+  curl -o /tmp/init-db.sql https://raw.githubusercontent.com/ypenn21/python-django-docker/main/sql/ddl.sql
   psql "host=${local.alloydb_ip} user=postgres dbname=library" -f /tmp/init-db.sql
   EOF
   
