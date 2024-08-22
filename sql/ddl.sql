@@ -14,7 +14,7 @@ create TABLE authors (
     embedding public.vector GENERATED ALWAYS AS (public.embedding('textembedding-gecko@003'::text, bio)) STORED
 );
 
--- 2. Books Table
+-- 2. Document Table
 create TABLE document (
     document_id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
