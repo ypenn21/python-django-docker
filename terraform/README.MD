@@ -6,7 +6,6 @@ export REGION=us-central1
 export PROJECT_NUMBER=$(gcloud projects list --filter="$(gcloud config get-value project)" --format="value(PROJECT_NUMBER)")
 export SERVICE_ACCOUNT=${PROJECT_NUMBER}-compute@developer.gserviceaccount.com
 
-gcloud services enable vision.googleapis.com
 gcloud services enable cloudfunctions.googleapis.com
 gcloud services enable cloudbuild.googleapis.com
 gcloud services enable run.googleapis.com
