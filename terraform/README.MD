@@ -92,6 +92,7 @@ gcloud resource-manager org-policies set-policy policy.yaml --organization=${ORG
 ## Edit terraform.tfvars file populate my_user, alloydb_cluster_name, project_number, & project_id before running TF
 
 ```shell
+gcloud auth application-default login
 terraform init 
 terraform plan
 #Password will be prompted. This is a password that you setup on the first run.
