@@ -20,7 +20,6 @@ module "project_services" {
   disable_dependent_services  = false
 
   activate_apis = [
-    "vision.googleapis.com",
     "cloudfunctions.googleapis.com",
     "cloudbuild.googleapis.com",
     "run.googleapis.com",
