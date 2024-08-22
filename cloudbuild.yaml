@@ -4,15 +4,15 @@ steps:
     args:
       - 'build'
       - '-t'  # Tag the image
-      - '${REGION}-docker.pkg.dev/$PROJECT_ID/app-genai/genai-apps:latest'  # Use a consistent image name and consider a specific version tag
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/app-genai/genai-apps:latest'  # Use a consistent image name and consider a specific version tag
       - '.'   # Build context (the current directory)
 
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', '${REGION}-docker.pkg.dev/$PROJECT_ID/app-genai/genai-apps:latest']  # Use the same image name as in the build step
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/app-genai/genai-apps:latest']  # Use the same image name as in the build step
 
 images:
-  - '${REGION}-docker.pkg.dev/$PROJECT_ID/app-genai/genai-apps:latest'  # List the final image to be stored
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/app-genai/genai-apps:latest'  # List the final image to be stored
 
 options:
   logging: CLOUD_LOGGING_ONLY  # or NONE to disable logging
