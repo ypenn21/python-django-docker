@@ -105,7 +105,7 @@ terraform apply
 gcloud builds submit --service-account=projects/${PROJECT_ID}/serviceAccounts/custom-cloudbuild-sa@${PROJECT_ID}.iam.gserviceaccount.com --machine-type E2-HIGHCPU-32
 # or run docker build locally and push
 gcloud auth configure-docker \
-    us-central1-docker.pkg.dev
+    ${REGION}--docker.pkg.dev
 docker build -f ./Dockerfile -t ${REGION}-docker.pkg.dev/${PROJECT_ID}/genai/app-genai:latest .
 docker push ${REGION}-docker.pkg.dev/${PROJECT_ID}/genai/app-genai:latest
 ```
