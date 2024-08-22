@@ -193,7 +193,7 @@ locals {
   alloydb_ip = google_alloydb_instance.primary.ip_address
 }
 
-resource "google_artifact_registry_repository" "books_genai_repo" {
+resource "google_artifact_registry_repository" "genai_repo" {
   for_each = local.cloud_run_services
   depends_on = [google_alloydb_instance.primary]
   location      = var.region
@@ -208,7 +208,7 @@ resource "google_artifact_registry_repository" "books_genai_repo" {
 
 resource "google_cloud_run_service" "cloud_run" {
   for_each = local.cloud_run_services
-  depends_on = [google_compute_instance.alloydb_client, google_artifact_registry_repository.books_genai_repo, google_service_networking_connection.private_vpc_connection, google_storage_bucket.dynamic_buckets]
+  depends_on = [google_compute_instance.alloydb_client, google_artifact_registry_repository.genai_repo, google_service_networking_connection.private_vpc_connection, google_storage_bucket.dynamic_buckets]
   name     = each.key
   location = var.region
 
