@@ -314,29 +314,3 @@ resource "google_eventarc_trigger" "genai_trigger_embeddings" {
 #
 #   # ... (other subscription configuration, e.g., push endpoint, etc.)
 # }
-resource "google_eventarc_trigger" "genai_trigger_image" {
-  for_each = local.cloud_run_services
-  depends_on = [google_cloud_run_service.cloud_run]
-  name     = "${each.key}-trigger-image-${var.region}"
-  location = var.region
-
-  service_account = "${var.project_number}-compute@developer.gserviceaccount.com"
-
-  destination {
-    cloud_run_service {
-      service = each.key #Assuming `service_name` is defined in your `local.cloud_run_services`
-      path    = "/images"
-      region  = var.region
-    }
-  }
-
-  matching_criteria {
-    attribute = "type"
-    value     = "google.cloud.storage.object.v1.finalized"
-  }
-
-  matching_criteria {
-    attribute = "bucket"
-    value     = "library_next24_images_${var.project_id}"
-  }
-}
