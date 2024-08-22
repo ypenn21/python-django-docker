@@ -6,7 +6,7 @@ from openai import OpenAI, OpenAIError
 from typing import List, Dict, Any
 import re
 
-
+# langchain integration sample: https://github.com/gitrey/gcp-vertexai-langchain/blob/main/03/code.py
 class LLMService:
     """
     A class to retrieve a random LLM from a list of available LLMs in Vertex AI Managed AI Service.

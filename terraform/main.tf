@@ -186,7 +186,7 @@ output "alloydb_ip" {
 locals {
   cloud_run_services = {
     "app-genai" = {
-      image = "${var.region}-docker.pkg.dev/${var.project_id}/genai/app-genai:latest",
+      image = "${var.region}-docker.pkg.dev/${var.project_id}/app-genai/genai-apps:latest",
       env = "jit"
     }
   }
