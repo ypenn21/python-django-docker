@@ -298,7 +298,7 @@ resource "google_eventarc_trigger" "genai_trigger_embeddings" {
 
   matching_criteria {
     attribute = "bucket"
-    value     = "library_next24_public_${var.project_id}"
+    value     = "library_${var.project_id}"
   }
 }
 # Pub/Sub Topic
