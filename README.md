@@ -42,7 +42,7 @@ python /home/user/python-django/src/manage.py runserver 8000
 
 run tests:
 ```shell
-export PYTHONPATH=$PYTHONPATH:/home/user/python-django/src
+export PYTHONPATH=$PYTHONPATH:/home/user/python-django-docker/src
 export DJANGO_SETTINGS_MODULE=config.settings
 python tests/view_tests.py
 ````
@@ -50,8 +50,8 @@ python tests/view_tests.py
 run tests in intellji test configuration:
 PYTHONUNBUFFERED=1;PYTHONDONTWRITEBYTECODE=true;WEB_CONCURRENCY=1;WEB_RELOAD=true;DEBUG=true;POSTGRES_HOST=0.0.0.0;POSTGRES_PASSWORD=pword;POSTGRES_PORT=5000;GOOGLE_CLOUD_PROJECT_ID=next24-genai-app
 ```shell
-setup the following environment variables to the run configurations in vscode:
-export PYTHONPATH=$PYTHONPATH:/home/user/python-django/src;DJANGO_SETTINGS_MODULE=config.settings
+#setup the following environment variables to the run configurations in vscode:
+export PYTHONPATH=$PYTHONPATH:/home/user/python-django-docker/src;DJANGO_SETTINGS_MODULE=config.settings
 export PYTHONUNBUFFERED=1
 export PYTHONDONTWRITEBYTECODE=true
 export WEB_CONCURRENCY=1 
@@ -59,7 +59,7 @@ export WEB_RELOAD=true
 export DEBUG=true 
 export POSTGRES_HOST=0.0.0.0 
 export POSTGRES_PASSWORD=pword 
-export POSTGRES_PORT=5000
+export POSTGRES_PORT=5432
 export GOOGLE_CLOUD_PROJECT_ID=$PROJECT_ID
 ```
 
