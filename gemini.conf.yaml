@@ -1,0 +1,23 @@
+tools:
+  - name: python_version
+    description: |
+      Return the venv environment python versioning
+    args: []
+    #   - name: code_path
+    #     type: path
+    #     description: |
+    #       Defines the path to be measured for coverage.
+    #       Directories only. DO NOT use files. If you need file - use the enclosing folder.
+    #       Make sure to NOT include test files in this path (e.g. test/ or .)
+    #   - name: test_path
+    #     type: path
+    #     description: |
+    #       Path to the test file or directory. Defines the tests to be run.
+    # return:
+    #   type: string
+    #   description: |
+    #     code coverage report
+    runtime:
+      type: cli
+      workdir: .venv/bin
+      command: python --version
