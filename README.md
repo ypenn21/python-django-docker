@@ -8,6 +8,8 @@ Install the latest python interpreter with the pyenv for the simplest installati
 ```shell
 sudo apt-get update 
 sudo apt-get install -y build-essential zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libssl-dev libffi-dev libbz2-dev
+# If you get an error  about “p_config not found”
+sudo apt-get install libpq-dev
 curl https://pyenv.run | bash
 echo -e 'export PYENV_ROOT="$HOME/.pyenv"\nexport PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo -e 'eval "$(pyenv init --path)"\neval "$(pyenv init -)"' >> ~/.bashrc
