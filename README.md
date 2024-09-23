@@ -32,7 +32,7 @@ export PROJECT_ID=$(gcloud config list --format 'value(core.project)')
 python -V
 pip install -r requirements.txt
 source .env.example
-python /home/user/python-django/src/manage.py runserver 8000
+python /home/user/python-django-docker/src/manage.py runserver 8000
 
 #endpoints to test:
 #host:8000/
@@ -116,6 +116,6 @@ gcloud run deploy django
 
 Using sa key e.g.
 ```shell
-export GOOGLE_APPLICATION_CREDENTIALS=/home/user/python-django/sa.json
+export GOOGLE_APPLICATION_CREDENTIALS=/home/user/sa.json
 ```
 
