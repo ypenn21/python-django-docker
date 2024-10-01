@@ -12,7 +12,7 @@ steps:
     args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/app-genai/genai-apps:latest']  # Use the same image name as in the build step
 
 images:
-  - 'us-central1-docker.pkg.dev/$PROJECT_ID/app-genai/genai-apps:latest'  # List the final image to be stored
+  - 'us-central1-docker.pkg.dev/$PROJECT_ID/app-genai/django-genai-apps:latest'  # List the final image to be stored
 
 options:
   logging: CLOUD_LOGGING_ONLY  # or NONE to disable logging
