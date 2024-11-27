@@ -105,7 +105,7 @@ gcloud resource-manager org-policies set-policy policy.yaml --organization=$ORG_
 ```
 Deploy Cloud Run to your GCP project:
 ```shell
-gcloud run deploy django 
+gcloud run deploy django \
   --image us-central1-docker.pkg.dev/$PROJECT_ID/django/django-app:latest \
   --region us-central1 \
   --set-env-vars="PYTHONDONTWRITEBYTECODE=true,PYTHONUNBUFFERED=1,POSTGRES_HOST=0.0.0.0,POSTGRES_PASSWORD=pword,GOOGLE_CLOUD_PROJECT_ID=${$PROJECT_ID}" \
