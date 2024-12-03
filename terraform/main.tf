@@ -26,7 +26,6 @@ module "project_services" {
     "logging.googleapis.com",
     "storage-component.googleapis.com",
     "aiplatform.googleapis.com",
-    "run.googleapis.com",
     "alloydb.googleapis.com",
     "artifactregistry.googleapis.com",
     "vpcaccess.googleapis.com",
