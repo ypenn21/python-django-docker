@@ -46,8 +46,6 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:cu
 gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:custom-cloudbuild-sa@${PROJECT_ID}.iam.gserviceaccount.com" --role="roles/storage.admin"
 gcloud projects add-iam-policy-binding ${PROJECT_ID} --member="serviceAccount:custom-cloudbuild-sa@${PROJECT_ID}.iam.gserviceaccount.com" --role="roles/artifactregistry.writer"
 
-gcloud builds submit --service-account=projects/${PROJECT_ID}/serviceAccounts/custom-cloudbuild-sa@${PROJECT_ID}.iam.gserviceaccount.com
-
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 --member="serviceAccount:${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com" \
 --role=roles/artifactregistry.writer
