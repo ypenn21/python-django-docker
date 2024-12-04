@@ -115,3 +115,52 @@ class DAOService:
 
     def close(self):
         self.conn.close()
+
+    def insert_pages(self, book_id: int, content: str, page_number: int) -> int:
+        sql = """
+            INSERT INTO pages (book_id, content, page_number)
+            VALUES (%s, %s, %s);
+        """
+        params = (book_id, content, page_number)
+        with self.conn.cursor() as cursor:
+            cursor.execute(sql, params)
+            self.conn.commit()
+            return cursor.rowcount  # Return the number of rows affected
+
+
+    def insert_summaries(self, book_id: int, summary: str) -> int:
+        sql = """
+            INSERT INTO bookSummaries (book_id, summary)
+            VALUES (%s, %s);
+        """
+        params = (book_id, summary)
+        with self.conn.cursor() as cursor:
+            cursor.execute(sql, params)
+            self.conn.commit()
+            return cursor.rowcount
+
+    def insert_author(self, bio: str, author: str) -> int:
+        sql = """
+            INSERT INTO authors (bio, name)
+            VALUES (%s, %s)
+            RETURNING author_id;
+        """
+        params = (bio, author)
+        with self.conn.cursor() as cursor:
+            cursor.execute(sql, params)
+            author_id = cursor.fetchone()[0]  # Fetch the returned author_id
+            self.conn.commit()
+            return author_id
+
+    def insert_book(self, author_id: int, title: str, year: str, public_private: str) -> int: # Use string for scope
+        sql = """
+            INSERT INTO books (author_id, publication_year, title, scope)
+            VALUES (%s, %s, %s, %s)
+            RETURNING book_id;
+        """
+        params = (author_id, year, title, public_private)  # Pass year as string, DB will handle conversion if needed.
+        with self.conn.cursor() as cursor:
+            cursor.execute(sql, params)
+            book_id = cursor.fetchone()[0]
+            self.conn.commit()
+            return book_id

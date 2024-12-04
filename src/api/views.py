@@ -77,3 +77,48 @@ def list_llms(request):
     llms = llm_service.list_llms()
 
     return JsonResponse({"llms": llms})
+@csrf_exempt
+def insert_book(request):
+    if request.method == 'POST':
+        try:
+            body = json.loads(request.body)
+            headers = request.headers
+
+            # Validate headers (replace with your actual validation logic)
+            error_msg = validate_request(body, headers)  # Placeholder for validation function
+            if error_msg:
+                return JsonResponse({"error": error_msg}, status=400)
+
+            book_title = body.get("book")
+            author_name = body.get("author")
+
+            if not book_title or not author_name:
+                return JsonResponse({"error": "Missing 'name' or 'author' in request body"}, status=400)
+
+            dao = DAOService()
+            author_id = dao.insert_author(bio="famous author", author=author_name)
+            #hard coding just for now..
+            dao.insert_book(author_id=author_id, title=book_title, public_private="public", year="2000-01-01")
+
+            return JsonResponse({"status": 200}, status=200)  # Adjust status codes as needed
+
+
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON payload"}, status=400)
+
+    else:
+        return JsonResponse({"error": "Method not allowed"}, status=405)
+
+
+
+def validate_request(body, headers):
+    """
+    Placeholder for request validation logic.  Replace with your actual validation.
+    """
+    # Check for required headers and body content
+    # Example:
+    if not headers.get("Content-Type") == "application/json":
+         return "Invalid Content-Type header"
+    if not body.get("name"):
+        return "Missing 'name' in the request body."
+    # ... more validation checks ...
