@@ -92,9 +92,6 @@ def insert_book(request):
             book_title = body.get("book")
             author_name = body.get("author")
 
-            if not book_title or not author_name:
-                return JsonResponse({"error": "Missing 'name' or 'author' in request body"}, status=400)
-
             dao = DAOService()
             author_id = dao.insert_author(bio="famous author", author=author_name)
             #hard coding just for now..
@@ -119,6 +116,8 @@ def validate_request(body, headers):
     # Example:
     if not headers.get("Content-Type") == "application/json":
          return "Invalid Content-Type header"
-    if not body.get("name"):
+    book_title = body.get("book")
+    author_name = body.get("author")
+    if not book_title or not author_name:
         return "Missing 'name' in the request body."
     # ... more validation checks ...
