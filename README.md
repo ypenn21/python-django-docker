@@ -123,6 +123,9 @@ export GOOGLE_APPLICATION_CREDENTIALS=/home/user/sa.json
 
 Collect to alloydb from local
 ```shell
+gcloud auth application-default login
+wget https://storage.googleapis.com/alloydb-auth-proxy/v1.12.0/alloydb-auth-proxy.linux.amd64 -O alloydb-auth-proxy
+chmod +x alloydb-auth-proxy
 #https://cloud.google.com/alloydb/docs/auth-proxy/connect#command-line connect with 127.0.0.1:5432
-./alloydb-auth-proxy "projects/genai-apps-25/locations/us-central1/clusters/alloydb-aip-01/instances/alloydb-aip-01-pr" --credentials-file "/Users/user/sa.json" --public-ip
+./alloydb-auth-proxy "projects/project-id/locations/us-central1/clusters/alloydb-aip-01/instances/alloydb-aip-01-pr" --public-ip
 ```
