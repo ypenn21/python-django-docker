@@ -14,6 +14,13 @@ def test_clients(request):
     llm = LLMService()
     return HttpResponse("connection successful")
 
+def get_llm_service(): # helper funciton to return LLMService
+    project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
+    region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
+    return LLMService(project_id=project_id, region=region)
+
+llm_service=get_llm_service()
+
 def get_book(request):
     dao = DAOService()
     param = request.GET.get('title')
@@ -24,13 +31,9 @@ def get_book(request):
     else:
         return HttpResponse("Title parameter is missing", status=404)
 @csrf_exempt
-def post_analysis(request):
+def post_analysis(request, dao=DAOService()):
     if request.method == 'POST':
         try:
-            dao = DAOService()
-            project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
-            region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
-            llm_service = LLMService(project_id=project_id, region=region)
             data = json.loads(request.body)
             book_title = data.get("book")
             author_name = data.get("author")
@@ -60,13 +63,9 @@ def post_analysis(request):
         return HttpResponse("Method not allowed", status=405)
 
 @csrf_exempt
-def tf_transform(request):
+def tf_transform(request, dao=DAOService()):
     if request.method == 'POST':
         try:
-            dao = DAOService()
-            project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
-            region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
-            llm_service = LLMService(project_id=project_id, region=region)
             data = json.loads(request.body)
             script = data.get("script")
 
@@ -99,15 +98,11 @@ def list_llms(request):
     Returns:
         A JSON response containing a list of LLM names.
     """
-    project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
-    region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
-
-    llm_service = LLMService(project_id=project_id, region=region)
     llms = llm_service.list_llms()
 
     return JsonResponse({"llms": llms})
 @csrf_exempt
-def insert_book(request):
+def insert_book(request, dao = DAOService()):
     if request.method == 'POST':
         try:
             body = json.loads(request.body)
@@ -121,7 +116,6 @@ def insert_book(request):
             book_title = body.get("book")
             author_name = body.get("author")
 
-            dao = DAOService()
             author_id = dao.insert_author(bio="famous author", author=author_name)
             #hard coding just for now..
             dao.insert_book(author_id=author_id, title=book_title, public_private="public", year="2000-01-01")
