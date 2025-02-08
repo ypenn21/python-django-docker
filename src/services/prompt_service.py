@@ -101,3 +101,26 @@ def format_tf_transform(script: str, context: str) -> str:
         ```{context}   """
     
     return prompt_tf_transform.format(script=script, context=context)
+
+def get_sorted_pages(results: List[Dict[str, Any]]) -> str:
+    """Sorts pages based on page number in ascending order and constructs context.
+
+    Args:
+        results: A list of dictionaries, each containing "page_number" and "page".
+
+    Returns:
+        A string containing concatenated page content, ordered by ascending page number.
+        Returns an empty string if results is empty or None.
+    """
+    if not results:
+        return ""
+
+    sorted_pages = sorted(results, key=lambda x: int(x.get("page_number", 0))) # Removed reverse=True
+
+    context = ""
+    for page_data in sorted_pages[:5]:  # Limit to top 5
+        page_content = page_data.get("page")
+        if page_content:
+            context += page_content + "\n"
+
+    return context

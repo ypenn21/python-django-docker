@@ -59,10 +59,11 @@ class DAOService:
         params = [p for p in parameters if p is not None and (isinstance(p, str) and p != '')]
 
         print(f"Parameters: {params}")
-
+        whereClause = """ WHERE """
         if len(params) > 3:
             sql += self.create_where_clause(book, author)
-            sql += """ AND """
+            whereClause = """ AND """
+        sql += whereClause
         sql += """(p.embedding <=> embedding('text-embedding-004', %s)::vector) < 0.45 """
 
         sql += """ ORDER BY distance ASC LIMIT 10 """

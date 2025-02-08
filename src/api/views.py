@@ -1,6 +1,6 @@
 from src.services.llm_service import LLMService
 from src.services.dao_service import DAOService
-from src.services.prompt_service import format_prompt_book_keywords, tf_search_query
+from src.services.prompt_service import format_prompt_book_keywords, tf_search_query, get_sorted_pages
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import urllib.parse
@@ -76,8 +76,9 @@ def tf_transform(request):
                     tf_search_query(),
                     characterLimit=character_limit
                 )
-                book_pages = [{"page": result.get("page")} for result in results]
-                context = " ".join([page.get("page") for page in book_pages])
+                # book_pages = [{"page": result.get("page")} for result in results]
+                # context = " ".join([page.get("page") for page in book_pages])
+                context = get_sorted_pages(results)
                 analysis = llm_service.tf_transform(
                     script, context)
                 return HttpResponse(analysis)
