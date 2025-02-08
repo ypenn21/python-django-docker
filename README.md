@@ -34,6 +34,8 @@ export PROJECT_ID=$(gcloud config list --format 'value(core.project)')
 python -V
 pip install -r requirements.txt
 source .env.example
+#set working directory
+export PYTHONPATH=$PYTHONPATH:/path/to/your/project/root
 python /home/user/python-django-docker/src/manage.py runserver 8000
 
 #endpoints to test:
@@ -126,6 +128,6 @@ Collect to alloydb from local
 gcloud auth application-default login
 wget https://storage.googleapis.com/alloydb-auth-proxy/v1.12.0/alloydb-auth-proxy.linux.amd64 -O alloydb-auth-proxy
 chmod +x alloydb-auth-proxy
-#https://cloud.google.com/alloydb/docs/auth-proxy/connect#command-line connect with 127.0.0.1:5432
+#https://cloud.google.com/alloydb/docs/auth-proxy/connect#command-line connect with 127.0.0.1:5432 ./alloydb-auth-proxy "projects/genai-playground24/locations/us-central1/clusters/alloydb-aip-01/instances/alloydb-aip-01-pr" --public-ip
 ./alloydb-auth-proxy "projects/project-id/locations/us-central1/clusters/alloydb-aip-01/instances/alloydb-aip-01-pr" --public-ip
 ```
