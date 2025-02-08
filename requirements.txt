@@ -14,7 +14,8 @@ isort==5.13.2
 black==24.4.2
 requests==2.32.3
 google-auth==2.26.1
-openai==1.61.1
+openai==1.55.3
+httpx==0.27.2
 #langchain_google_alloydb_pg
 #google-cloud-alloydb-connector[pg8000]
 #langchain_google_alloydb_pg
