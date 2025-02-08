@@ -1,6 +1,6 @@
 from src.services.llm_service import LLMService
 from src.services.dao_service import DAOService
-from src.services.prompt_service import format_prompt_book_keywords, format_prompt_book_analysis
+from src.services.prompt_service import format_prompt_book_keywords, tf_search_query
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import urllib.parse
@@ -59,6 +59,34 @@ def post_analysis(request):
     else:
         return HttpResponse("Method not allowed", status=405)
 
+@csrf_exempt
+def tf_transform(request):
+    if request.method == 'POST':
+        try:
+            dao = DAOService()
+            project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
+            region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
+            llm_service = LLMService(project_id=project_id, region=region)
+            data = json.loads(request.body)
+            script = data.get("script")
+
+            if script:
+                character_limit = 500
+                results = dao.prompt_for_books(
+                    tf_search_query(),
+                    characterLimit=character_limit
+                )
+                book_pages = [{"page": result.get("page")} for result in results]
+                context = " ".join([page.get("page") for page in book_pages])
+                analysis = llm_service.tf_transform(
+                    script, context)
+                return HttpResponse(analysis)
+            else:
+                return HttpResponse("Missing required parameters", status=400)
+        except json.JSONDecodeError:
+            return HttpResponse("Invalid JSON payload", status=400)
+    else:
+        return HttpResponse("Method not allowed", status=405)
 
 def list_llms(request):
     """

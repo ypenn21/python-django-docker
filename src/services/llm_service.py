@@ -1,5 +1,5 @@
 import json
-from src.services.prompt_service import format_prompt_book_keywords, format_prompt_book_analysis
+from src.services.prompt_service import format_prompt_book_analysis, format_tf_transform
 import google.auth.transport.requests
 import google.auth
 from openai import OpenAI, OpenAIError
@@ -39,6 +39,14 @@ class LLMService:
         response = self.prompt_gemini(system_message, user_message)
         return self.parse_response_to_json(response)
 
+    def tf_transform(self, shell_script: str, context: str) -> str:
+        system_message = """You are an expert in Google Cloud Platform (GCP), fluent in `gcloud` commands,
+                            deeply familiar with Terraform modules for GCP. """
+        user_prompt = format_tf_transform(shell_script, context)
+        print(user_prompt)
+        response = self.prompt_gemini(system_message, user_prompt)
+        return response
+
     def analysis_book(self, book_title: str, author_name: str, book_pages: List[Dict[str, Any]], keywords: List[str]) -> str:
         system_message = """You are a helpful AI assistant that can provide literary analysis of classic literature books, particularly those from the Shakespearean era. You have access to a vast knowledge base of literary theory, historical context, and the works of Shakespeare himself. 
         Your responses should be insightful, well-written, and demonstrate a deep understanding of literary analysis. 
@@ -59,7 +67,7 @@ class LLMService:
         while retries < max_retries:
             try:
                 response = self.client.chat.completions.create(
-                    model="google/gemini-1.5-pro-001",
+                    model="google/gemini-2.0-flash-001",
                     messages=[
                         {
                             "role": "system",

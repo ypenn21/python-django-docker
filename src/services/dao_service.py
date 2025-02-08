@@ -45,7 +45,7 @@ class DAOService:
                 LEFT(p.content, %s) AS page,
                 a.name,
                 p.page_number,
-                (p.embedding <=> embedding('textembedding-gecko@003', %s)::vector) AS distance
+                (p.embedding <=> embedding('text-embedding-004', %s)::vector) AS distance
             FROM
                 pages p
             JOIN books b ON
@@ -54,20 +54,18 @@ class DAOService:
                 a.author_id = b.author_id
         """
 
-        parameters = [str(characterLimit), prompt, book, author]
+        parameters = [str(characterLimit), prompt, book, author, prompt]
         print(f"Parameters: {parameters}")
         params = [p for p in parameters if p is not None and (isinstance(p, str) and p != '')]
 
         print(f"Parameters: {params}")
 
-        if len(params) > 2:
+        if len(params) > 3:
             sql += self.create_where_clause(book, author)
+            sql += """ AND """
+        sql += """(p.embedding <=> embedding('text-embedding-004', %s)::vector) < 0.45 """
 
-        sql += """
-            ORDER BY
-                distance ASC
-            LIMIT 10;
-        """
+        sql += """ ORDER BY distance ASC LIMIT 10 """
 
         print(f"SQL: {sql}")
 
@@ -82,23 +80,18 @@ class DAOService:
         print(result_rows)
         return result_rows
 
-    def create_where_clause(self, book: str, author: str) -> str:
-        """
-        Creates a WHERE clause for the SQL query based on book and author filters.
-
-        Args:
-            book (str): The book title to filter by.
-            author (str): The author to filter by.
-
-        Returns:
-            str: The WHERE clause for the SQL query.
-        """
+    def create_where_clause(self, book: str = None, author: str = None) -> str:
         where_clause = " WHERE "
         conditions = []
-        if book:
+        if book:  # Check if book is actually provided (after filtering)
             conditions.append(f"b.title = %s")
-        if author:
+        if author:  # Check if author is actually provided (after filtering)
             conditions.append(f"a.name = %s")
+
+        # Handle case where no book or author is provided:
+        if not conditions:
+            return ""  # Or raise an appropriate exception if filtering is required.
+
         where_clause += " AND ".join(conditions)
         return where_clause
 
