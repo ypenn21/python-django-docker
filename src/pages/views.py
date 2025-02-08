@@ -12,8 +12,12 @@ def home(request):
     #     "python_ver": os.environ["PYTHON_VERSION"],
     # }
 
-    return render(request, "pages/home.html")
+    return render(request, "pages/terraform.html")
+
+def terraform(request):
+    print("terraform")
+    return render(request, "pages/terraform.html")
 
 def books(request):
     print("books")
-    return render(request, "pages/terraform.html")
+    return render(request, "pages/books.html")
