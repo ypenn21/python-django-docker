@@ -17,7 +17,8 @@ def test_clients(request):
 def get_llm_service(): # helper funciton to return LLMService
     project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
     region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
-    return LLMService(project_id=project_id, region=region)
+    model = os.getenv("LLM_MODEL", "google/gemini-2.0-flash-001")
+    return LLMService(project_id=project_id, region=region, model=model)
 
 llm_service=get_llm_service()
 

@@ -11,9 +11,10 @@ class LLMService:
     """
     A class to retrieve a random LLM from a list of available LLMs in Vertex AI Managed AI Service.
     """
-    def __init__(self, project_id, region):
+    def __init__(self, project_id, region, model):
         self.project_id = project_id
         self.region = region
+        self.model = model
         # print(f'project_id: {project_id}, region: {region}')
         # Obtain credentials
         required_scopes = ["https://www.googleapis.com/auth/cloud-platform"]
@@ -67,7 +68,7 @@ class LLMService:
         while retries < max_retries:
             try:
                 response = self.client.chat.completions.create(
-                    model="google/gemini-2.0-flash-001",
+                    model=self.model,
                     messages=[
                         {
                             "role": "system",
