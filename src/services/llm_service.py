@@ -23,7 +23,6 @@ class LLMService:
         creds.refresh(auth_req)
 
         # Initialize OpenAI with Vertex AI endpoint and credentials
-        self.endpoint= f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
         self.client = OpenAI(
             api_key=creds.token,
             base_url=f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
