@@ -228,7 +228,8 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'https://books-genai-jit-360922367561.us-central1.run.app/script/bash/to-terraform',
+                url: 'https://django-360922367561.us-central1.run.app/api/to-terraform',
+                //url: 'http://127.0.0.1:8000/api/to-terraform',
                 data: JSON.stringify(terraform),
                 contentType: 'application/json',
                 success: function(response) {
