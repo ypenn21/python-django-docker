@@ -25,11 +25,12 @@ RUN pip install --user --upgrade pip \
 
 COPY --chown=python:python . .
 
-ENV DEBUG="false" \
-#     PYTHONUNBUFFERED="true" \
-#     DJANGO_SETTINGS_MODULE="config.settings" \
+ARG DEBUG="false"
+ENV DEBUG="${DEBUG}" \
+    PYTHONUNBUFFERED="true" \
+    DJANGO_SETTINGS_MODULE="config.settings" \
     PYTHONPATH="$PYTHONPATH:/app" \
-#     PATH="${PATH}:/home/python/.local/bin" \
+    PATH="${PATH}:/home/python/.local/bin" \
     USER="python"
 
 WORKDIR /app/src
