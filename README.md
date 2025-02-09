@@ -131,3 +131,12 @@ chmod +x alloydb-auth-proxy
 #https://cloud.google.com/alloydb/docs/auth-proxy/connect#command-line connect with 127.0.0.1:5432 ./alloydb-auth-proxy "projects/genai-playground24/locations/us-central1/clusters/alloydb-aip-01/instances/alloydb-aip-01-pr" --public-ip
 ./alloydb-auth-proxy "projects/project-id/locations/us-central1/clusters/alloydb-aip-01/instances/alloydb-aip-01-pr" --public-ip
 ```
+
+Error Client Proxy
+```python
+#https://community.openai.com/t/client-init-got-an-unexpected-keyword-argument-proxies-with-latest-openai-version-1-57-0-and-httpx-0-27-2/1044503/2
+#upgrade requirements.txt:
+openai==1.59.6
+httpx==0.27.2
+typing-extensions>=4.11.0,<5.0.0
+```
