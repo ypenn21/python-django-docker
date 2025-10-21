@@ -18,10 +18,6 @@ class DAOService:
         )
         return conn
 
-    def find_book(self, title):
-        query = "SELECT * FROM books WHERE UPPER(title) = UPPER(%s)"
-        params = (title,)
-        return self.read(query, params)
     def prompt_for_books(self, prompt: str, book: str = None, author: str = None, characterLimit: int = None) -> List[Dict[str, Any]]:
         """
         Prompts for books based on a given prompt, book title, and author. Vertexai integration will
@@ -95,12 +91,16 @@ class DAOService:
 
         where_clause += " AND ".join(conditions)
         return where_clause
-
+    
     def read(self, query, params=None):
         with self.conn.cursor() as cursor:
             cursor.execute(query, params)
             results = cursor.fetchall()
-        return results
+            if not results:
+                return []
+            # Get column names from the cursor that executed the query
+            colnames = [desc[0] for desc in cursor.description]
+        return [dict(zip(colnames, row)) for row in results]
 
     def insert(self, query, params=None):
         with self.conn.cursor() as cursor:

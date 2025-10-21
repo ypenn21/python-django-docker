@@ -14,23 +14,15 @@ def test_clients(request):
     llm = LLMService()
     return HttpResponse("connection successful")
 
-def get_llm_service(): # helper funciton to return LLMService
-    project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
+
+def get_llm_service():
+    project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID", "genai-playground24")
     region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
-    model = os.getenv("LLM_MODEL", "google/gemini-2.0-flash-001")
+    model = os.getenv("LLM_MODEL", "google/gemini-2.5-flash")
     return LLMService(project_id=project_id, region=region, model=model)
 
 llm_service=get_llm_service()
 
-def get_book(request):
-    dao = DAOService()
-    param = request.GET.get('title')
-    if param:
-        param = urllib.parse.unquote(param)
-        results = dao.find_book(param)
-        return HttpResponse(results)
-    else:
-        return HttpResponse("Title parameter is missing", status=404)
 @csrf_exempt
 def post_analysis(request, dao=DAOService()):
     if request.method == 'POST':
@@ -102,6 +94,7 @@ def list_llms(request):
     llms = llm_service.list_llms()
 
     return JsonResponse({"llms": llms})
+
 @csrf_exempt
 def insert_book(request, dao = DAOService()):
     if request.method == 'POST':
@@ -118,7 +111,7 @@ def insert_book(request, dao = DAOService()):
             author_name = body.get("author")
 
             author_id = dao.insert_author(bio="famous author", author=author_name)
-            #hard coding just for now..
+
             dao.insert_book(author_id=author_id, title=book_title, public_private="public", year="2000-01-01")
 
             return JsonResponse({"status": 200}, status=200)  # Adjust status codes as needed
@@ -144,4 +137,3 @@ def validate_request(body, headers):
     author_name = body.get("author")
     if not book_title or not author_name:
         return "Missing 'name' in the request body."
-    # ... more validation checks ...
