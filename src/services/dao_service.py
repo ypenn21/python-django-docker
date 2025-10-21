@@ -91,7 +91,10 @@ class DAOService:
 
         where_clause += " AND ".join(conditions)
         return where_clause
-    
+    def find_book(self, title):
+        query = "SELECT * FROM books WHERE UPPER(title) = UPPER(%s)"
+        params = (title,)
+        return self.read(query, params)
     def read(self, query, params=None):
         with self.conn.cursor() as cursor:
             cursor.execute(query, params)
