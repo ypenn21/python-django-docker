@@ -23,6 +23,16 @@ def get_llm_service():
 
 llm_service=get_llm_service()
 
+def get_book(request):
+    dao = DAOService()
+    param = request.GET.get('title')
+    if param:
+        param = urllib.parse.unquote(param)
+        results = dao.find_book(param)
+        return HttpResponse(results)
+    else:
+        return HttpResponse("Title parameter is missing", status=404)
+        
 @csrf_exempt
 def post_analysis(request, dao=DAOService()):
     if request.method == 'POST':
