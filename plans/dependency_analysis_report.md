@@ -1,0 +1,23 @@
+# Dependency Analysis Report
+
+| Dependency             | Current Version | Latest Version | Update Recommended | Notes                                                                                                                                 |
+| ---------------------- | --------------- | -------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Django                 | 5.0.6           | 6.0            | Yes                |                                                                                                                                       |
+| gunicorn               | 22.0.0          | 22.0.0         | No                 |                                                                                                                                       |
+| whitenoise             | 6.7.0           | unknown        | ?                  | The documentation from context 7 mcp server seems to be outdated. The latest version could not be determined.                           |
+| django-debug-toolbar   | 4.4.2           | 6.0.0          | Yes                |                                                                                                                                       |
+| setuptools             | 67.7.2          | 80.9.0         | Yes                |                                                                                                                                       |
+| psycopg2-binary        | 2.9.9           | unknown        | ?                  | The documentation from context 7 mcp server does not specify the version. `psycopg3` is recommended for new projects.                 |
+| google-cloud-aiplatform| not specified   | 1.124.0        | Yes                | It is recommended to specify a version and update to the latest.                                                                    |
+| google-cloud-storage   | 2.17.0          | 3.3.1          | Yes                |                                                                                                                                       |
+| redis                  | 5.0.6           | 7.0.1          | Yes                |                                                                                                                                       |
+| celery                 | 5.4.0           | 5.5.3          | Yes                |                                                                                                                                       |
+| pytest                 | 7.4.0           | 8.4.2          | Yes                |                                                                                                                                       |
+| flake8                 | 7.1.0           | 7.3.0          | Yes                |                                                                                                                                       |
+| isort                  | 5.13.2          | 6.1.0          | Yes                |                                                                                                                                       |
+| black                  | 24.4.2          | 25.1.0         | Yes                |                                                                                                                                       |
+| requests               | 2.32.3          | 2.32.5         | Yes                |                                                                                                                                       |
+| google-auth            | 2.26.1          | 2.40.3         | Yes                |                                                                                                                                       |
+| openai                 | 1.59.6          | 2.6.1          | Yes                |                                                                                                                                       |
+| httpx                  | 0.27.2          | 0.28.1         | Yes                |                                                                                                                                       |
+| typing-extensions      | >=4.11.0,<5.0.0 | 4.15.0         | No                 | The latest version is within the specified range.                                                                                     |
