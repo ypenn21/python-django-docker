@@ -6,6 +6,9 @@ class DAOService:
 
     def __init__(self):
         self.conn = self.create_db_client()
+        db_config = DATABASES['default']
+        self.embeddings = db_config['EMBEDDING_MODEL']
+        self.cosine_distance = db_config['COSINE_DISTANCE']
 
     def create_db_client(self):
         db_config = DATABASES['default']
@@ -18,6 +21,10 @@ class DAOService:
         )
         return conn
 
+    def find_book(self, title):
+        query = "SELECT * FROM books WHERE UPPER(title) = UPPER(%s)"
+        params = (title,)
+        return self.read(query, params)
     def prompt_for_books(self, prompt: str, book: str = None, author: str = None, characterLimit: int = None) -> List[Dict[str, Any]]:
         """
         Prompts for books based on a given prompt, book title, and author. Vertexai integration will
@@ -41,7 +48,7 @@ class DAOService:
                 LEFT(p.content, %s) AS page,
                 a.name,
                 p.page_number,
-                (p.embedding <=> embedding('text-embedding-004', %s)::vector) AS distance
+                (p.embedding <=> embedding(%s, %s)::vector) AS distance
             FROM
                 pages p
             JOIN books b ON
@@ -50,7 +57,7 @@ class DAOService:
                 a.author_id = b.author_id
         """
 
-        parameters = [str(characterLimit), prompt, book, author, prompt]
+        parameters = [str(characterLimit), self.embeddings, prompt, book, author, self.embeddings, prompt, self.cosine_distance]
         print(f"Parameters: {parameters}")
         params = [p for p in parameters if p is not None and (isinstance(p, str) and p != '')]
 
@@ -60,7 +67,7 @@ class DAOService:
             sql += self.create_where_clause(book, author)
             whereClause = """ AND """
         sql += whereClause
-        sql += """(p.embedding <=> embedding('text-embedding-004', %s)::vector) < 0.45 """
+        sql += """(p.embedding <=> embedding(%s, %s)::vector) < %s """
 
         sql += """ ORDER BY distance ASC LIMIT 10 """
 
@@ -99,11 +106,7 @@ class DAOService:
         with self.conn.cursor() as cursor:
             cursor.execute(query, params)
             results = cursor.fetchall()
-            if not results:
-                return []
-            # Get column names from the cursor that executed the query
-            colnames = [desc[0] for desc in cursor.description]
-        return [dict(zip(colnames, row)) for row in results]
+        return results
 
     def insert(self, query, params=None):
         with self.conn.cursor() as cursor:

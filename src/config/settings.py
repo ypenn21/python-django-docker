@@ -35,6 +35,8 @@ DATABASES = {
         "PASSWORD": os.getenv("POSTGRES_PASSWORD", "password"),
         "HOST": os.getenv("POSTGRES_HOST", "postgres"),
         "PORT": os.getenv("POSTGRES_PORT", "5432"),
+        "EMBEDDING_MODEL": os.getenv("EMBEDDING_MODEL", "text-embedding-005"),
+        "COSINE_DISTANCE": os.getenv("COSINE_DISTANCE", "0.48")
     }
 }
 

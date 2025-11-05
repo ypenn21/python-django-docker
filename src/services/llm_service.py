@@ -25,7 +25,7 @@ class LLMService:
         # Initialize OpenAI with Vertex AI endpoint and credentials
         self.client = OpenAI(
             api_key=creds.token,
-            base_url=f'https://{region}-aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/{region}/endpoints/openapi'
+            base_url=f'https://{region}-aiplatform.googleapis.com/v1/projects/{project_id}/locations/{region}/endpoints/openapi'
         )
     def list_llms(self):
         """

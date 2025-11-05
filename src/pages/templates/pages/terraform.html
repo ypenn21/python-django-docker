@@ -228,16 +228,14 @@
 
             $.ajax({
                 type: 'POST',
-                url: 'https://django-360922367561.us-central1.run.app/api/to-terraform',
-                //url: 'http://127.0.0.1:8000/api/to-terraform',
+                url: window.location.origin + '/api/to-terraform',
                 data: JSON.stringify(terraform),
                 contentType: 'application/json',
+                timeout: 60000, // Set timeout to 1 minute (60000 milliseconds)
                 success: function(response) {
                     $('#loading-indicator').hide(); // Hide the loading indicator
 
                     if (typeof response === 'string') {
-                      displayTextResult(response);
-                    } else {
                       displayTextResult(response);
                     }
                 },

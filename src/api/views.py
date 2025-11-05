@@ -14,11 +14,11 @@ def test_clients(request):
     llm = LLMService()
     return HttpResponse("connection successful")
 
-
-def get_llm_service():
-    project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID", "genai-playground24")
+def get_llm_service(): # helper funciton to return LLMService
+    project_id = os.getenv("GOOGLE_CLOUD_PROJECT_ID")
     region = os.getenv("GOOGLE_CLOUD_REGION", "us-central1")
     model = os.getenv("LLM_MODEL", "google/gemini-2.5-flash")
+    print(f"LLMService initialized with project_id: {project_id}, region: {region}, model: {model}")
     return LLMService(project_id=project_id, region=region, model=model)
 
 llm_service=get_llm_service()
@@ -32,7 +32,6 @@ def get_book(request):
         return HttpResponse(results)
     else:
         return HttpResponse("Title parameter is missing", status=404)
-        
 @csrf_exempt
 def post_analysis(request, dao=DAOService()):
     if request.method == 'POST':
