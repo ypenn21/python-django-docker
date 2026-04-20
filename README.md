@@ -91,6 +91,8 @@ docker run --rm -p 8000:8000 \
   django:latest
  ```
 
+(setup gcp infra cmds)[https://github.com/ypenn21/serverless-production-readiness-java-gcp/tree/main/sessions/next24/books-genai-vertex-springai]
+
 Run container image build with Cloud Build (will pick up cloudbuild.yaml):
 ```shell
 #set the project if you haven't already
@@ -114,6 +116,18 @@ gcloud run deploy django \
   --memory 2Gi \
   --allow-unauthenticated \
   --vpc-connector alloy-connector
+
+# configure triggers for public and private books, images - accessing the Native Java service image
+gcloud eventarc triggers create books-genai-jit-trigger-embeddings \
+     --destination-run-service=books-genai-jit \
+     --destination-run-region=us-central1 \
+     --destination-run-path=/document/embeddings \
+     --location=us-central1 \
+     --event-filters="type=google.cloud.storage.object.v1.finalized" \
+     --event-filters="bucket=${BUCKET_BOOKS_PUBLIC}" \
+     --service-account=${PROJECT_NUMBER}-compute@developer.gserviceaccount.com
+
+gcloud eventarc triggers list --location=us-central1
 ```
 
 *Note For access to vertexai api locally you need to authenticate to gcp via gcloud auth login or use sa key:
