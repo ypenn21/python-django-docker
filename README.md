@@ -52,7 +52,10 @@ python tests/view_tests.py
 ````
 
 run tests in intellji test configuration:
+```
 PYTHONUNBUFFERED=1;PYTHONDONTWRITEBYTECODE=true;WEB_CONCURRENCY=1;WEB_RELOAD=true;DEBUG=true;POSTGRES_HOST=0.0.0.0;POSTGRES_PASSWORD=pword;POSTGRES_PORT=5000;GOOGLE_CLOUD_PROJECT_ID=next24-genai-app
+```
+
 ```shell
 #setup the following environment variables to the run configurations in vscode:
 export PYTHONPATH=$PYTHONPATH:/home/user/python-django-docker/src;DJANGO_SETTINGS_MODULE=config.settings
